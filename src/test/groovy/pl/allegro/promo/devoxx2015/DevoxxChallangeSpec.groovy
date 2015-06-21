@@ -16,7 +16,7 @@ import static pl.allegro.promo.devoxx2015.offer.OfferPublishedEventBuilder.offer
 import static pl.allegro.promo.devoxx2015.stub.PhotoScoreServiceStub.photoScoreServiceStub
 
 @ContextConfiguration(loader = SpringApplicationContextLoader, classes = ACMEMostPretty)
-@WebIntegrationTest
+@WebIntegrationTest("photoScore.url=http://localhost:1337")
 class DevoxxChallangeSpec extends Specification {
 
     static final String OFFERS_RESOURCE = "http://localhost:8080/offers"
