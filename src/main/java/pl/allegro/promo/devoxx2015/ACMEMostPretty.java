@@ -1,5 +1,7 @@
 package pl.allegro.promo.devoxx2015;
 
+import com.github.fakemongo.Fongo;
+import com.mongodb.Mongo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +17,11 @@ public class ACMEMostPretty {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    public Mongo mongo() {
+        return new Fongo("memory").getMongo();
     }
 }
 
