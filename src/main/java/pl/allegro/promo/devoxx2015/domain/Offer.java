@@ -30,7 +30,4 @@ public class Offer {
         return photoScore;
     }
 
-    public boolean hasPrettyPhoto() {
-        return photoScore >= 0.7;
-    }
 }

@@ -14,6 +14,11 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Component
 public class OfferService {
+
+    private static final double MINIMAL_PRETTY_PHOTO_SCORE = 0.7;
+
+    private static final Sort PHOTO_SCORE_SORT_DESC = new Sort(DESC, "photoScore");
+
     private final OfferRepository offerRepository;
     private final PhotoScoreSource photoScoreSource;
 
@@ -26,7 +31,7 @@ public class OfferService {
     public void processOffers(List<OfferPublishedEvent> events) {
         final List<Offer> offers = events.stream()
                 .map(this::createOffer)
-                .filter(Offer::hasPrettyPhoto)
+                .filter(offer -> offer.getPhotoScore() >= MINIMAL_PRETTY_PHOTO_SCORE)
                 .collect(toList());
 
         offerRepository.save(offers);
@@ -40,11 +45,12 @@ public class OfferService {
         try {
             return photoScoreSource.getScore(photoUrl);
         } catch (Exception e) {
-            return 0.7d;
+            return MINIMAL_PRETTY_PHOTO_SCORE;
         }
     }
 
     public List<Offer> getOffers() {
-        return offerRepository.findAll(new Sort(DESC, "photoScore"));
+        return offerRepository.findAll(PHOTO_SCORE_SORT_DESC);
     }
+
 }
